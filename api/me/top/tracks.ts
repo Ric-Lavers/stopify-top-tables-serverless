@@ -28,6 +28,7 @@ module.exports = cors(async function (req, res) {
       return
     }
     topTracks = await getTopTracks(req)
+    await addTracks(topTracks.items)
 
     res.json(topTracks)
   } catch (error) {
@@ -35,10 +36,4 @@ module.exports = cors(async function (req, res) {
 
     res.status(400).send(error)
   }
-
-  // add to db
-  const { db, Word } = await connectToDatabase("mongodb://localhost:27017/demo")
-  console.log(db)
-
-  // addTracks(topTracks.items)
 })
