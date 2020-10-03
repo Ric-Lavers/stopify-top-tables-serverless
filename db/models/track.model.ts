@@ -4,17 +4,52 @@ import { connectToDatabase } from "../connectToDB"
  *
  */
 export const addTrack = async (track: TrackObjectFull) => {
-  const id = track.id
+  console.log(track.name)
+
+  const {
+    id,
+    album,
+    artists,
+    disc_number,
+    duration_ms,
+    explicit,
+    external_ids,
+    external_urls,
+    href,
+    name,
+    popularity,
+    preview_url,
+    track_number,
+    type,
+    uri,
+  } = track
 
   const { Track } = connectToDatabase()
 
-  const prevTrack = await Track.findById(id).catch(() => null)
+  const prevTrack = await Track.findOne({ id }).catch(() => null)
 
-  console.log(prevTrack)
+  if (prevTrack) {
+    console.log("previously saved")
+    return prevTrack
+  }
 
-  if (prevTrack) return prevTrack
-
-  const newTrack = new Track({ id, track })
-  console.log({ newTrack })
-  return await newTrack.save()
+  const newTrack = new Track({
+    id,
+    album,
+    artists,
+    disc_number,
+    duration_ms,
+    explicit,
+    external_ids,
+    external_urls,
+    href,
+    name,
+    popularity,
+    preview_url,
+    track_number,
+    type,
+    uri,
+  })
+  await newTrack.save()
+  return
 }
