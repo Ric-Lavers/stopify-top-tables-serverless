@@ -1,4 +1,5 @@
 const cors = require("micro-cors")()
+import axios from "axios"
 import { UsersTopTracksResponse } from "../../../types/spotify-api"
 import { Axios } from "../../config/axiosSetup"
 import { addTracks } from "../../../db/controllers"
@@ -27,8 +28,22 @@ module.exports = cors(async function (req, res) {
       res.send()
       return
     }
+
     topTracks = await getTopTracks(req)
-    await addTracks(topTracks.items)
+
+    await axios.post(
+      "http://localhost:4000/api/me/top/saveTracks",
+      topTracks.items,
+      {
+        params: {
+          ...req.query,
+          ...req.headers?.cookie,
+        },
+        headers: { ...req.headers },
+      },
+    )
+
+    // await addTracks(topTracks.items)
 
     res.json(topTracks)
   } catch (error) {

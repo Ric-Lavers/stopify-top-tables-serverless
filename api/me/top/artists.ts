@@ -1,7 +1,12 @@
 const cors = require("micro-cors")()
+import axios from "axios"
 import { Axios } from "../../config/axiosSetup"
 
-export const getTopArtists = ({ headers, query }) => {
+import { UsersTopArtistsResponse } from "../../../types/spotify-api"
+export const getTopArtists = ({
+  headers,
+  query,
+}): Promise<UsersTopArtistsResponse> => {
   return Axios({
     headers: { authorization: headers.authorization },
   }).get("/me/top/artists", {
@@ -22,7 +27,18 @@ module.exports = cors(async function (req, res) {
     }
     const topArtists = await getTopArtists(req)
 
-    return res.json(topArtists)
+    await axios.post(
+      "http://localhost:4000/api/me/top/saveArtists",
+      topArtists.items,
+      {
+        params: {
+          ...req.query,
+          ...req.headers?.cookie,
+        },
+        headers: { ...req.headers },
+      },
+    )
+    res.json(topArtists)
   } catch (error) {
     console.log(error)
     res.error(error)

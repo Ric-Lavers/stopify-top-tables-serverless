@@ -1,15 +1,19 @@
 import mongoose from "mongoose"
-
+import { trackSchema } from "./track.schema"
+import { userSchema } from "./user.schema"
 const Schema = mongoose.Schema
 mongoose.set("useCreateIndex", true)
 
 export const topTracksSchema = new Schema({
-  group_id: {
-    type: String,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+  top_tables: {
+    track_short_term: trackSchema,
+    track_medium_term: trackSchema,
+    track_long_term: trackSchema,
+    artist_short_term: trackSchema,
+    artist_medium_term: trackSchema,
+    artist_long_term: trackSchema,
   },
-  user: Object,
-  time_range: String,
-  items: Object,
   created_on: {
     type: Date,
     default: Date.now(),
