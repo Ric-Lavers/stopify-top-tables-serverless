@@ -5,6 +5,16 @@ export const getUser = async (spotify_user_id: string) => {
   const { User } = connectToDatabase()
 
   const user = await User.findOne({ id: spotify_user_id })
+    .populate("groups", "name")
+    .populate([
+      "track_short_term",
+      "track_medium_term",
+      "track_long_term",
+      "artist_short_term",
+      "artist_medium_term",
+      "artist_long_term",
+    ])
+
   return user
 }
 

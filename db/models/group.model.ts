@@ -2,8 +2,6 @@ import omitBy from "lodash.omitby"
 import { connectToDatabase } from "../connectToDB"
 import { sortItemIds } from "../utils/sortItemIds"
 
-import ids from "../utils/sortItemIds.mock"
-console.log(sortItemIds(ids))
 export const createNewGroup = async (
   groupName: string,
   spotify_user_id: string,
@@ -45,11 +43,13 @@ export const createNewGroup = async (
   const newGroup = new Group({
     name: groupName,
     users: [user._id],
+    // created_by: user._id,
     ...lists,
   })
   await newGroup.save()
   user.groups.push(newGroup._id)
-  user.save()
+  await user.save()
+  console.log(newGroup)
 
   return newGroup
 }
@@ -85,7 +85,11 @@ export const addUserToGroup = async (
 export const getGroup = async (_id: string) => {
   const { Group, Artist, Track } = connectToDatabase()
 
-  const group = await Group.findById(_id).populate("users", "display_name")
+  const group = await Group.findById(_id)
+    .populate("users", "display_name")
+    .catch(async () => {
+      return await Group.findOne({ id: _id }).populate("users", "display_name")
+    })
 
   async function populateTopItems(
     ids: string[][],
@@ -119,6 +123,7 @@ export const getGroup = async (_id: string) => {
 
   // populate tracks and artst
   return {
+    id: group.id || group._id,
     users: group.users,
     track_short_term,
     track_medium_term,

@@ -29,7 +29,7 @@ export const addTrack = async (track: TrackObjectFull) => {
   const prevTrack = await Track.findOne({ id }).catch(() => null)
 
   if (prevTrack) {
-    console.log(track.name, "previously saved")
+    // console.log(track.name, "previously saved")
     return prevTrack
   }
 

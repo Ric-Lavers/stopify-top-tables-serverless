@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@types/axios": "^0.14.0",
     "axios": "^0.20.0",
     "crypto": "^1.0.1",
     "disconnect": "^1.2.1",
@@ -16,14 +15,16 @@
     "oauth-1.0a": "^2.2.5",
     "querystring": "^0.2.0",
     "request": "^2.81.0",
+    "shortid": "^2.2.15",
     "typescript": "^4.0.3",
     "url": "^0.11.0"
   },
   "scripts": {},
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/mongoose": "^5.7.36",
     "@types/node": "^14.11.2",
-    "jest": "^26.5.3",
-    "@vercel/node": "^1.8.3"
+    "@vercel/node": "^1.8.3",
+    "jest": "^26.5.3"
   }
 }

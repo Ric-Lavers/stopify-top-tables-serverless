@@ -1,5 +1,6 @@
 import { TrackObjectFull } from "../../types/spotify-api"
 import { addTrack } from "../models/track.model"
+import { getUser } from "../models/user.model"
 
 export const addTracks = async (
   tracks: TrackObjectFull[],
@@ -15,6 +16,10 @@ export const addTracks = async (
 
       userTracks.push(t)
     }
+
+    const user = await getUser(spotify_user_id)
+    user[`track_${time_range}`] = userTracks
+    await user.save()
   } catch (error) {
     console.log(error)
   }
