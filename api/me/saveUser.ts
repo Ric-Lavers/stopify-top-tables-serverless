@@ -1,6 +1,5 @@
 const cors = require("micro-cors")()
-
-import { addArtists } from "../../../db/controllers"
+import { addUser } from "../../db/controllers"
 
 module.exports = cors(async function (req, res) {
   try {
@@ -10,13 +9,9 @@ module.exports = cors(async function (req, res) {
       return
     }
 
-    let topArtists = await addArtists(
-      req.body,
-      req.query.time_range,
-      req.query.spotify_user_id,
-    )
+    let user = await addUser(req.body)
 
-    res.status(200).json({ saved: true })
+    res.status(200).json(user)
   } catch (error) {
     console.log("me/top/saveTopTracks.ts", error)
 

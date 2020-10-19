@@ -1,3 +1,5 @@
-export { topTracksSchema } from "./topTracks.schema"
+export { topTableSchema } from "./topTable.schema"
 export { trackSchema } from "./track.schema"
 export { artistSchema } from "./artist.schema"
+export { userSchema } from "./user.schema"
+export { groupSchema } from "./group.schema"

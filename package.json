@@ -9,6 +9,7 @@
     "crypto": "^1.0.1",
     "disconnect": "^1.2.1",
     "dotenv": "^8.2.0",
+    "lodash.omitby": "^4.6.0",
     "micro-cors": "^0.1.1",
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.7",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@types/mongoose": "^5.7.36",
     "@types/node": "^14.11.2",
+    "jest": "^26.5.3",
     "@vercel/node": "^1.8.3"
   }
 }

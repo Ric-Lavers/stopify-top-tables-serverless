@@ -47,7 +47,7 @@ module.exports = cors(async function (req, res) {
 
     res.json(topTracks)
   } catch (error) {
-    console.log("me/top/tracks", error)
+    // console.log("me/top/tracks", error)
 
     res.status(400).send(error)
   }

@@ -8,16 +8,16 @@ module.exports = cors(async function (req, res) {
       res.send()
       return
     }
-    const cookies = req.headers?.cookie.split(";").reduce((a, c) => {
-      let [k, v] = c.split("=")
-      a[k] = v
-      return a
-    }, {})
+    // const cookies = req.headers?.cookie?.split(";").reduce((a, c) => {
+    //   let [k, v] = c.split("=")
+    //   a[k] = v
+    //   return a
+    // }, {})
 
     let topTracks = await addTracks(
       req.body,
       req.query.time_range,
-      cookies.spotify_user_id,
+      req.query.spotify_user_id,
       null,
     )
 

@@ -22,7 +22,7 @@ export const addArtist = async (artist: ArtistObjectFull) => {
   const prevArtist = await Artist.findOne({ id }).catch(() => null)
 
   if (prevArtist) {
-    console.log(artist.name, "previously saved")
+    // console.log(artist.name, "previously saved")
     return prevArtist
   }
 

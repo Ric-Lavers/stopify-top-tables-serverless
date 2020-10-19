@@ -16,7 +16,12 @@ export const Axios = ({
     },
     ...config,
   })
-
+  Axios.interceptors.request.use((config) => {
+    if (config?.params?.spotify_user_id) {
+      delete config.params.spotify_user_id
+    }
+    return config
+  })
   Axios.interceptors.response.use(
     (res: AxiosResponse) => res.data,
     // this will returned undefined on network error
