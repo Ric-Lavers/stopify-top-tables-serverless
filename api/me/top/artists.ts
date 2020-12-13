@@ -1,22 +1,6 @@
 const cors = require("micro-cors")()
 import axios from "axios"
-import { Axios } from "../../config/axiosSetup"
-
-import { UsersTopArtistsResponse } from "../../../types/spotify-api"
-export const getTopArtists = ({
-  headers,
-  query,
-}): Promise<UsersTopArtistsResponse> => {
-  return Axios({
-    headers: { authorization: headers.authorization },
-  }).get("/me/top/artists", {
-    params: {
-      limit: 50,
-      time_range: "short_term",
-      ...query,
-    },
-  })
-}
+import { getTopArtists } from "../../../services"
 
 module.exports = cors(async function (req, res) {
   try {
@@ -25,7 +9,10 @@ module.exports = cors(async function (req, res) {
       res.send()
       return
     }
-    const topArtists = await getTopArtists(req)
+    const topArtists = await getTopArtists({
+      authorization: req.headers?.authorization,
+      query: req.query,
+    })
 
     await axios.post(
       "http://localhost:4000/api/me/top/saveArtists",

@@ -5,7 +5,7 @@ export const getUser = async (spotify_user_id: string) => {
   const { User } = connectToDatabase()
 
   const user = await User.findOne({ id: spotify_user_id })
-    .populate("groups", "name")
+    .populate("groups", ["name", "id"])
     .populate([
       "track_short_term",
       "track_medium_term",
@@ -80,8 +80,8 @@ export const saveUser = async (user: CurrentUsersProfileResponse) => {
   const prevUser = await User.findOne({ id }).catch(() => null)
 
   if (prevUser) {
-    console.log(user.id, "previously saved")
-    return prevUser
+    console.log(user, user.id, "previously saved")
+    return user
   }
 
   const newUser = new User({
