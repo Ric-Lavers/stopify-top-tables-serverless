@@ -17,7 +17,10 @@ export const addTracks = async (
       userTracks.push(t)
     }
 
+
     const user = await getUser(spotify_user_id)
+    console.log('user',user);
+    
     user[`track_${time_range}`] = userTracks
     await user.save()
   } catch (error) {

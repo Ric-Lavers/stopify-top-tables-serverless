@@ -61,7 +61,7 @@ export const addUserToGroup = async (
   const { Group, User } = connectToDatabase()
   //check if name exists
   const group = await Group.findOne({ name: groupName }).catch(() => null)
-  const user = await User.findOne({ spotify_user_id }).catch(() => null)
+  const user = await User.findOne({ id: spotify_user_id }).catch(() => null)
 
   if (!user) throw new Error("can not find user")
   if (!group) throw new Error("can not find group")

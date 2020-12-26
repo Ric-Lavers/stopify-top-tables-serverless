@@ -10,7 +10,6 @@ module.exports = cors(async function (req, res) {
     }
 
     let group = await getGroup(req.query.group_id)
-    // console.log(group)
 
     res.status(200).json(group)
   } catch (error) {

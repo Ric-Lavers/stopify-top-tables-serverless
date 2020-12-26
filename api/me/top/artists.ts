@@ -27,7 +27,7 @@ module.exports = cors(async function (req, res) {
     }
     const topArtists = await getTopArtists(req)
 
-    await axios.post(
+     await axios.post(
       "http://localhost:4000/api/me/top/saveArtists",
       topArtists.items,
       {

@@ -8,11 +8,6 @@ module.exports = cors(async function (req, res) {
       res.send()
       return
     }
-    // const cookies = req.headers?.cookie?.split(";").reduce((a, c) => {
-    //   let [k, v] = c.split("=")
-    //   a[k] = v
-    //   return a
-    // }, {})
 
     let topTracks = await addTracks(
       req.body,

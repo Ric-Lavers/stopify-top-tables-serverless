@@ -14,6 +14,7 @@ export const getUser = async (spotify_user_id: string) => {
       "artist_medium_term",
       "artist_long_term",
     ])
+console.log(user);
 
   return user
 }
@@ -48,6 +49,7 @@ export const getUserTopTacks = async (spotify_user_id: string) => {
     Promise.all([].concat(artist_long_term).map((id) => Artist.findById(id))),
   ])
 
+  
   return {
     tracks_short_term,
     tracks_medium_term,

@@ -16,7 +16,10 @@ module.exports = cors(async function (req, res) {
     )
     console.log(newGroup)
 
-    res.status(200).json(newGroup)
+    res.status(200).json({
+      _id: newGroup._id,
+      name: newGroup.name,
+    })
   } catch (error) {
     console.log("me/top/saveTopTracks.ts", error)
 

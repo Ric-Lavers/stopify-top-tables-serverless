@@ -21,11 +21,13 @@ export const addArtists = async (
     const User = await getUser(spotify_user_id)
 
     //* saves/overides users topTable for time_range
-    // await addTopTable(user as IUser, "artist", userArtistsIds, time_range)
+    await addTopTable(User as IUser, "artist", userArtistsIds, time_range)
+
 
     const key = `artist_${time_range}`
     User[key] = userArtistsIds
     await User.save()
+    console.log(User);
   } catch (error) {
     console.log(error)
   }

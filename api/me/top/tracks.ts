@@ -31,6 +31,7 @@ module.exports = cors(async function (req, res) {
 
     topTracks = await getTopTracks(req)
 
+
     await axios.post(
       "http://localhost:4000/api/me/top/saveTracks",
       topTracks.items,
