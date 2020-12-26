@@ -2,6 +2,7 @@ const cors = require("micro-cors")()
 require("dotenv").config()
 import axios from "axios"
 import { Axios } from "../config/axiosSetup"
+import { getUserProfile } from "../../db/controllers"
 
 const currentUserProfile = ({ headers, headers: { authorization } }) => {
   return Axios({
@@ -17,6 +18,7 @@ module.exports = cors(async function (req, res) {
       return
     }
     const userProfile = await currentUserProfile(req)
+
     await axios.post("http://localhost:4000/api/me/saveUser", userProfile, {
       params: {
         ...req.query,
@@ -24,7 +26,11 @@ module.exports = cors(async function (req, res) {
       },
       headers: { ...req.headers },
     })
-    res.json(userProfile)
+    let user = await getUserProfile(req.query.spotify_user_id)
+
+    console.log("userProfile", userProfile, { user })
+
+    return res.json(userProfile)
   } catch (error) {
     console.log(error.message)
 

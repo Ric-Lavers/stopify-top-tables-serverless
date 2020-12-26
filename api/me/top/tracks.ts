@@ -1,24 +1,7 @@
 const cors = require("micro-cors")()
 import axios from "axios"
-import { UsersTopTracksResponse } from "../../../types/spotify-api"
-import { Axios } from "../../config/axiosSetup"
-import { addTracks } from "../../../db/controllers"
-import { connectToDatabase } from "../../../db/connectToDB"
 
-export const getTopTracks = async ({
-  headers,
-  query,
-}): Promise<UsersTopTracksResponse> => {
-  return Axios({
-    headers: { authorization: headers.authorization },
-  }).get("me/top/tracks", {
-    params: {
-      limit: 50,
-      time_range: "short_term",
-      ...query,
-    },
-  })
-}
+import { getTopTracks } from "../../../services"
 
 module.exports = cors(async function (req, res) {
   let topTracks
@@ -28,8 +11,12 @@ module.exports = cors(async function (req, res) {
       res.send()
       return
     }
+    const {
+      headers: { authorization },
+      query,
+    } = req
 
-    topTracks = await getTopTracks(req)
+    topTracks = await getTopTracks({ authorization, query })
 
 
     await axios.post(
