@@ -1,23 +1,35 @@
-const cors = require("micro-cors")()
-import axios from "axios"
+const cors = require("micro-cors")();
+import axios from "axios";
+import { UsersTopTracksResponse } from "../../../types/spotify-api";
+import { Axios } from "../../config/axiosSetup";
+import { addTracks } from "../../../db/controllers";
+import { connectToDatabase } from "../../../db/connectToDB";
 
-import { getTopTracks } from "../../../services"
+export const getTopTracks = async ({
+  headers,
+  query,
+}): Promise<UsersTopTracksResponse> => {
+  return Axios({
+    headers: { authorization: headers.authorization },
+  }).get("me/top/tracks", {
+    params: {
+      limit: 50,
+      time_range: "short_term",
+      ...query,
+    },
+  });
+};
 
 module.exports = cors(async function (req, res) {
-  let topTracks
+  let topTracks;
   try {
     if (req.method === "OPTIONS") {
-      res.status(200)
-      res.send()
-      return
+      res.status(200);
+      res.send();
+      return;
     }
-    const {
-      headers: { authorization },
-      query,
-    } = req
 
-    topTracks = await getTopTracks({ authorization, query })
-
+    topTracks = await getTopTracks(req);
 
     await axios.post(
       "http://localhost:4000/api/me/top/saveTracks",
@@ -25,18 +37,17 @@ module.exports = cors(async function (req, res) {
       {
         params: {
           ...req.query,
-          ...req.headers?.cookie,
         },
         headers: { ...req.headers },
-      },
-    )
+      }
+    );
 
     // await addTracks(topTracks.items)
 
-    res.json(topTracks)
+    res.json(topTracks);
   } catch (error) {
     // console.log("me/top/tracks", error)
 
-    res.status(400).send(error)
+    res.status(400).send(error);
   }
-})
+});

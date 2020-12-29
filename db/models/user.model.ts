@@ -1,8 +1,8 @@
-import { CurrentUsersProfileResponse } from "../../types/spotify-api"
-import { connectToDatabase } from "../connectToDB"
+import { CurrentUsersProfileResponse } from "../../types/spotify-api";
+import { connectToDatabase } from "../connectToDB";
 
 export const getUser = async (spotify_user_id: string) => {
-  const { User } = connectToDatabase()
+  const { User } = connectToDatabase();
 
   const user = await User.findOne({ id: spotify_user_id })
     .populate("groups", ["name", "id"])
@@ -13,16 +13,15 @@ export const getUser = async (spotify_user_id: string) => {
       "artist_short_term",
       "artist_medium_term",
       "artist_long_term",
-    ])
-console.log(user);
+    ]);
 
-  return user
-}
+  return user;
+};
 
 export const getUserTopTacks = async (spotify_user_id: string) => {
-  const { User, Track, Artist } = connectToDatabase()
+  const { User, Track, Artist } = connectToDatabase();
 
-  const user = await User.findOne({ id: spotify_user_id })
+  const user = await User.findOne({ id: spotify_user_id });
 
   let {
     track_short_term,
@@ -31,7 +30,7 @@ export const getUserTopTacks = async (spotify_user_id: string) => {
     artist_short_term,
     artist_medium_term,
     artist_long_term,
-  } = user
+  } = user;
 
   const [
     tracks_short_term,
@@ -47,9 +46,8 @@ export const getUserTopTacks = async (spotify_user_id: string) => {
     Promise.all([].concat(artist_short_term).map((id) => Artist.findById(id))),
     Promise.all([].concat(artist_medium_term).map((id) => Artist.findById(id))),
     Promise.all([].concat(artist_long_term).map((id) => Artist.findById(id))),
-  ])
+  ]);
 
-  
   return {
     tracks_short_term,
     tracks_medium_term,
@@ -57,13 +55,13 @@ export const getUserTopTacks = async (spotify_user_id: string) => {
     artists_short_term,
     artists_medium_term,
     artists_long_term,
-  }
-}
+  };
+};
 /**
  *
  */
 export const saveUser = async (user: CurrentUsersProfileResponse) => {
-  const { User } = connectToDatabase()
+  const { User } = connectToDatabase();
 
   const {
     birthdate,
@@ -78,12 +76,12 @@ export const saveUser = async (user: CurrentUsersProfileResponse) => {
     external_urls,
     followers,
     images,
-  } = user
-  const prevUser = await User.findOne({ id }).catch(() => null)
+  } = user;
+  const prevUser = await User.findOne({ id }).catch(() => null);
 
   if (prevUser) {
-    console.log(user, user.id, "previously saved")
-    return user
+    console.log("user previously saved");
+    return user;
   }
 
   const newUser = new User({
@@ -99,7 +97,7 @@ export const saveUser = async (user: CurrentUsersProfileResponse) => {
     external_urls,
     followers,
     images,
-  })
-  await newUser.save()
-  return newUser
-}
+  });
+  await newUser.save();
+  return newUser;
+};

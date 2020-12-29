@@ -5,7 +5,6 @@ const FRONTEND_URI = require('./index').FRONTEND_URI
 
 module.exports = (function (req, res) {
 
-  console.log('callback', req.query)
   //Recieves the code
 
   let code = req.query.code || null;

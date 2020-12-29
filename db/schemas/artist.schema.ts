@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
-mongoose.set("useCreateIndex", true)
+const Schema = mongoose.Schema;
+mongoose.set("useCreateIndex", true);
 
 export const artistSchema = new Schema({
   id: String,
@@ -13,10 +13,10 @@ export const artistSchema = new Schema({
   uri: String,
   followers: Object,
   genres: [String],
-  images: Object,
+  images: [Object],
 
   created_on: {
     type: Date,
     default: Date.now(),
   },
-})
+});

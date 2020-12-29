@@ -1,23 +1,23 @@
-const cors = require("micro-cors")()
-require("dotenv").config()
-import axios from "axios"
-import { Axios } from "../config/axiosSetup"
-import { getUserProfile } from "../../db/controllers"
+const cors = require("micro-cors")();
+require("dotenv").config();
+import axios from "axios";
+import { Axios } from "../config/axiosSetup";
+import { getUserProfile } from "../../db/controllers";
 
 const currentUserProfile = ({ headers, headers: { authorization } }) => {
   return Axios({
     headers: { ...(authorization ? { authorization } : {}) },
-  }).get("me")
-}
+  }).get("me");
+};
 
 module.exports = cors(async function (req, res) {
   try {
     if (req.method === "OPTIONS") {
-      res.status(200)
-      res.send()
-      return
+      res.status(200);
+      res.send();
+      return;
     }
-    const userProfile = await currentUserProfile(req)
+    const userProfile = await currentUserProfile(req);
 
     await axios.post("http://localhost:4000/api/me/saveUser", userProfile, {
       params: {
@@ -25,16 +25,14 @@ module.exports = cors(async function (req, res) {
         ...req.headers?.cookie,
       },
       headers: { ...req.headers },
-    })
-    let user = await getUserProfile(req.query.spotify_user_id)
+    });
+    let user = await getUserProfile(req.query.spotify_user_id);
 
-    console.log("userProfile", userProfile, { user })
-
-    return res.json(userProfile)
+    return res.json(userProfile);
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
 
     // the user is probably not logged in
-    res.status(401).send(error)
+    res.status(401).send(error);
   }
-})
+});
