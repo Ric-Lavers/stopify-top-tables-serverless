@@ -1,5 +1,5 @@
-import { connectToDatabase } from "../connectToDB"
-import { ArtistObjectFull } from "../../types/spotify-api"
+import { connectToDatabase } from "../connectToDB";
+import { ArtistObjectFull } from "../../types/spotify-api";
 
 export const addArtist = async (artist: ArtistObjectFull) => {
   // console.log(artist.name)
@@ -15,15 +15,14 @@ export const addArtist = async (artist: ArtistObjectFull) => {
     images,
     type,
     uri,
-  } = artist
+  } = artist;
 
-  const { Artist } = connectToDatabase()
+  const { Artist } = connectToDatabase();
 
-  const prevArtist = await Artist.findOne({ id }).catch(() => null)
+  const prevArtist = await Artist.findOne({ id }).catch(() => null);
 
   if (prevArtist) {
-    // console.log(artist.name, "previously saved")
-    return prevArtist
+    return prevArtist;
   }
 
   const newArtist = new Artist({
@@ -37,7 +36,7 @@ export const addArtist = async (artist: ArtistObjectFull) => {
     followers,
     genres,
     images,
-  })
-  await newArtist.save()
-  return newArtist
-}
+  });
+  await newArtist.save();
+  return newArtist;
+};

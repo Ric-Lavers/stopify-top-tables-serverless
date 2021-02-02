@@ -8,14 +8,14 @@ export const createNewGroup = async (
 ) => {
   const { Group, User } = connectToDatabase();
   //check if name exists
-  const checkGroupName = await Group.findOne({ name: groupName }).catch(
-    () => null
-  );
-  if (checkGroupName) {
-    throw new Error("group name already exists");
-  }
+  // const checkGroupName = await Group.findOne({ name: groupName }).catch(
+  //   () => null
+  // );
+  // if (checkGroupName) {
+  //   throw new Error("group name already exists");
+  // }
 
-  const user = await User.findOne({ id: spotify_user_id });
+  const user = await User.findOne({ id: spotify_user_id }).populate("groups");
   const {
     track_short_term,
     track_medium_term,
@@ -49,9 +49,8 @@ export const createNewGroup = async (
   await newGroup.save();
   user.groups.push(newGroup._id);
   await user.save();
-  console.log(newGroup);
-
-  return newGroup;
+  user.groups.pop();
+  return [...user.groups, newGroup];
 };
 
 export const addUserToGroup = async (

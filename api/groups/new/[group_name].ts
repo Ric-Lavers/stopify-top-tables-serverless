@@ -9,15 +9,13 @@ module.exports = cors(async function (req, res) {
       return;
     }
 
-    let newGroup = await createNewGroup(
+    let groups = await createNewGroup(
       req.query.group_name,
       req.query.spotify_user_id
     );
-
-    res.status(200).json({
-      _id: newGroup._id,
-      name: newGroup.group_name,
-    });
+    res
+      .status(200)
+      .json(groups.map(({ _id, id, name }) => ({ id: id || _id, name })));
   } catch (error) {
     console.log("api/groups/new.ts", error);
 
