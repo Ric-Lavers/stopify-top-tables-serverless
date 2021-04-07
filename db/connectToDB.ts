@@ -7,6 +7,7 @@ const {
   userSchema,
   topTableSchema,
   groupSchema,
+  topTracksPlaylistSchema,
 } = require("./schemas");
 const mongoose = require("mongoose");
 import wordSchema from "./schemas/word.schema";
@@ -24,6 +25,10 @@ export function connectToDatabase(uri = "mongodb://localhost/demo") {
   const Word = mongoose.model("word", wordSchema);
   const User = mongoose.model("user", userSchema);
   const TopTable = mongoose.model("topTable", topTableSchema);
+  const TopTracksPlaylist = mongoose.model(
+    "topTracksPlaylist",
+    topTracksPlaylistSchema
+  );
   // If the database connection is cached,
   // use it instead of creating a new connection
   if (cachedDb) {
@@ -37,7 +42,16 @@ export function connectToDatabase(uri = "mongodb://localhost/demo") {
   });
 
   // Cache the database connection and return the connection
-  cachedDb = { mongoose, Word, Track, Artist, User, TopTable, Group };
+  cachedDb = {
+    mongoose,
+    Word,
+    Track,
+    Artist,
+    User,
+    TopTable,
+    Group,
+    TopTracksPlaylist,
+  };
 
   return cachedDb;
 }

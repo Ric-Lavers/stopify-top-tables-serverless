@@ -1,5 +1,5 @@
 const cors = require("micro-cors")();
-import { createNewTopTablePlaylist } from "../../db/models/topTablePlaylists.model";
+import { getTopTablePlaylistById } from "../../../db/models/topTablePlaylists.model";
 
 module.exports = cors(async function (req, res) {
   try {
@@ -9,14 +9,13 @@ module.exports = cors(async function (req, res) {
       return;
     }
 
-    let playlist = await createNewTopTablePlaylist(
-      req.query.spotify_user_id,
-      req.body.tracks
+    let playlist = await getTopTablePlaylistById(
+      req.query["top-table-playlist-id"]
     );
 
     res.status(200).json(playlist);
   } catch (error) {
-    console.log("api/playlists/create.tsv", error);
+    console.log("api/playlists/all.ts", error);
 
     res.status(400).send(error);
   }

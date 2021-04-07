@@ -96,6 +96,7 @@ export const getGroup = async (_id: string) => {
   ): Promise<any> {
     const sortedIds = sortItemIds(ids);
     const populatedItems = await Promise.all(
+      //@ts-ignore
       sortedIds.map(({ id }) => {
         const Model = type === "artist" ? Artist : Track;
         return Model.findById(id);
